@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Đố Mẹo Hack Não – 100 Câu</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf7f2;
+  --card: #ffffff;
+  --ink: #1a1208;
+  --muted: #8a7e6e;
+  --accent: #e8622a;
+  --accent2: #2a7de8;
+  --accent3: #27a06e;
+  --warn: #e8b62a;
+  --border: #e8e0d4;
+  --shadow: rgba(26,18,8,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Mulish', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(232,98,42,0.06) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(42,125,232,0.05) 0%, transparent 40%);
+}
+
+/* ── HEADER ── */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(250,247,242,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex; align-items: center; gap: 16px;
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
+}
+
+.header-meta {
+  display: flex; align-items: center; gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.badge {
+  background: var(--ink);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+}
+
+.badge.score { background: var(--accent3); }
+.badge.streak { background: var(--accent); }
+
+/* ── PROGRESS BAR ── */
+.prog-bar-wrap {
+  height: 3px;
+  background: var(--border);
+  position: sticky; top: 57px; z-index: 49;
+}
+.prog-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--warn));
+  transition: width 0.4s ease;
+}
+
+/* ── MAIN LAYOUT ── */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+/* ── CATEGORY FILTER ── */
+.categories {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 28px;
+  animation: fadeUp 0.5s ease;
+}
+
+.cat-btn {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.cat-btn:hover { border-color: var(--accent); color: var(--accent); }
+.cat-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+/* ── RIDDLE CARD ── */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 28px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 16px var(--shadow);
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.4s ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--border);
+  transition: background 0.2s;
+}
+
+.card.revealed::before { background: var(--accent3); }
+.card.skipped::before { background: var(--muted); }
+
+.card:hover { transform: translateY(-2px); box-shadow: 0 6px 28px var(--shadow); }
+
+.card-top {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-bottom: 0;
+}
+
+.card-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  min-width: 32px;
+}
+
+.card-body { flex: 1; }
+
+.card-category {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.card-question {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.card-emoji {
+  font-size: 2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ── ANSWER SECTION ── */
+.answer-wrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+  opacity: 0;
+}
+
+.answer-wrap.open {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.answer-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 18px 0 16px 0;
+}
+
+.answer-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.answer-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent3);
+  line-height: 1.5;
+}
+
+.card-hint {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ── CARD ACTIONS ── */
+.card-actions {
+  display: flex; gap: 8px;
+  margin-top: 16px;
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height 0.3s, opacity 0.3s;
+}
+
+.card-actions.open { max-height: 60px; opacity: 1; }
+
+.act-btn {
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex; align-items: center; gap: 5px;
+}
+
+.act-btn:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.act-btn.got-it { border-color: var(--accent3); color: var(--accent3); }
+.act-btn.got-it:hover { background: var(--accent3); color: white; border-color: var(--accent3); }
+.act-btn.skip { border-color: var(--muted); color: var(--muted); }
+
+/* Reveal hint */
+.reveal-hint {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 14px;
+  display: flex; align-items: center; justify-content: center; gap-6px;
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  display: flex; gap: 12px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+
+.stat-chip {
+  flex: 1;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.stat-chip .num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.stat-chip .lbl {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.stat-chip.correct .num { color: var(--accent3); }
+.stat-chip.wrong-stat .num { color: var(--accent); }
+.stat-chip.streak-stat .num { color: var(--warn); }
+
+/* ── SECTION TITLE ── */
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+/* ── EMPTY STATE ── */
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+.empty .emoji { font-size: 3rem; margin-bottom: 12px; }
+.empty p { font-size: 0.9rem; }
+
+/* ── SEARCH ── */
+.search-wrap {
+  position: relative;
+  margin-bottom: 20px;
+  animation: fadeUp 0.5s 0.05s ease both;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.92rem;
+  color: var(--ink);
+  padding: 13px 18px 13px 44px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: var(--muted); }
+
+.search-icon {
+  position: absolute;
+  left: 16px; top: 50%; transform: translateY(-50%);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+/* ── CONFETTI ── */
+.confetti-p {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 3px;
+  animation: cfall linear forwards;
+}
+@keyframes cfall {
+  to { top: 110vh; transform: rotate(720deg) translateX(var(--dx)); opacity: 0; }
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--ink);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: 999px;
+  z-index: 999;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── COMPLETE BANNER ── */
+.complete-banner {
+  display: none;
+  background: linear-gradient(135deg, var(--accent3), #1e7a52);
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  color: white;
+  margin-bottom: 24px;
+  animation: fadeUp 0.5s ease;
+}
+.complete-banner.show { display: block; }
+.complete-banner h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.complete-banner p { opacity: 0.85; font-size: 0.95rem; margin-bottom: 20px; }
+.complete-banner button {
+  background: white;
+  color: var(--accent3);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.complete-banner button:hover { transform: scale(1.04); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🧠 Đố Mẹo</div>
+  <div id="headerProg" style="flex:1;font-size:0.78rem;color:var(--muted);font-weight:600;"></div>
+  <div class="header-meta">
+    <div class="badge score" id="hScore">✅ 0</div>
+    <div class="badge streak" id="hStreak">🔥 0</div>
+  </div>
+</header>
+<div class="prog-bar-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+
+<main>
+  <div class="stats-bar">
+    <div class="stat-chip correct"><div class="num" id="statCorrect">0</div><div class="lbl">Đúng</div></div>
+    <div class="stat-chip wrong-stat"><div class="num" id="statWrong">0</div><div class="lbl">Chưa biết</div></div>
+    <div class="stat-chip"><div class="num" id="statLeft">100</div><div class="lbl">Còn lại</div></div>
+    <div class="stat-chip streak-stat"><div class="num" id="statStreak">0</div><div class="lbl">Chuỗi 🔥</div></div>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" placeholder="Tìm câu đố..." oninput="filterCards()" />
+  </div>
+
+  <div class="categories" id="catFilter"></div>
+
+  <div class="complete-banner" id="completeBanner">
+    <h2>🎉 Xuất sắc!</h2>
+    <p id="completeText">Bạn đã giải hết tất cả 100 câu đố!</p>
+    <button onclick="resetAll()">🔄 Chơi lại từ đầu</button>
+  </div>
+
+  <div class="section-title">
+    <span id="sectionLabel">Tất cả câu đố</span>
+    <span id="sectionCount" style="font-size:0.7rem;color:var(--muted)"></span>
+  </div>
+
+  <div id="cardList"></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const RIDDLES = [
+  // 🤔 ĐỐ MẸO
+  { id:1, cat:"Đố mẹo", emoji:"🐭", q:"Chuột nào đi bằng 2 chân?", a:"Con chuột Mickey (hoạt hình)", hint:"Nghĩ đến nhân vật hoạt hình nổi tiếng nhất thế giới!" },
+  { id:2, cat:"Đố mẹo", emoji:"🐦", q:"Chim nào không biết đi cũng không biết bay?", a:"Chim đồ chơi (bằng nhựa hoặc bông)", hint:"Không phải chim thật nhé!" },
+  { id:3, cat:"Đố mẹo", emoji:"🐯", q:"Một con hổ bị xích vào gốc cây, sợi xích dài 30m. Con mèo ở cách đó 40m có bị hổ ăn không?", a:"Không, vì hổ không với tới được (chỉ 30m)", hint:"Đọc kỹ con số!" },
+  { id:4, cat:"Đố mẹo", emoji:"🏃", q:"Trong cuộc đua, bạn vượt qua người đứng thứ nhì. Bạn đang ở vị trí mấy?", a:"Thứ nhì – bạn chiếm chỗ của họ", hint:"Bạn không vượt người đứng đầu!" },
+  { id:5, cat:"Đố mẹo", emoji:"🏁", q:"Trong cuộc đua, bạn chạy qua người cuối cùng. Bạn đứng vị trí mấy?", a:"Cuối cùng – không thể vượt người cuối nếu không ai phía sau", hint:"Không thể vượt người cuối nếu chỉ có họ ở đó!" },
+  { id:6, cat:"Đố mẹo", emoji:"🍎", q:"Có 3 quả táo trên bàn, bạn lấy đi 2 quả. Bạn có mấy quả?", a:"2 quả – bạn đã lấy đi 2 quả rồi!", hint:"Câu hỏi hỏi bạn có, không phải còn lại trên bàn." },
+  { id:7, cat:"Đố mẹo", emoji:"🦁", q:"Sở thú bị cháy, con gì chạy ra đầu tiên?", a:"Con người (nhân viên, khách tham quan)", hint:"Ai có chân và ý thức thoát hiểm nhanh nhất?" },
+  { id:8, cat:"Đố mẹo", emoji:"🔥", q:"Nếu chỉ có 1 que diêm, bạn bước vào phòng có đèn, bếp dầu, bếp củi. Bạn thắp gì trước?", a:"Thắp que diêm trước!", hint:"Muốn thắp gì cũng phải bắt đầu từ đây!" },
+  { id:9, cat:"Đố mẹo", emoji:"🦸", q:"Kẻ giết người phải chọn: phòng lửa, phòng súng, phòng sư tử đói 3 năm. Phòng nào an toàn nhất?", a:"Phòng sư tử – vì đói 3 năm sư tử đã chết rồi!", hint:"Sư tử nhịn đói 3 năm thì sao?" },
+  { id:10, cat:"Đố mẹo", emoji:"🌊", q:"Bạn đang trên thuyền giữa sông cá ăn thịt, thuyền sắp chìm. Cách đơn giản nhất để thoát?", a:"Đừng tưởng tượng nữa!", hint:"Câu này bắt đầu bằng 'Hãy tưởng tượng'..." },
+  { id:11, cat:"Đố mẹo", emoji:"🕯️", q:"Tôi cao khi còn trẻ, thấp khi về già. Tôi là gì?", a:"Ngọn nến", hint:"Cứ cháy là cứ ngắn dần..." },
+  { id:12, cat:"Đố mẹo", emoji:"🥚", q:"Cái gì phải đập vỡ mới dùng được?", a:"Quả trứng", hint:"Ăn sáng mỗi ngày!" },
+  { id:13, cat:"Đố mẹo", emoji:"🪣", q:"30 chia 1/2 rồi cộng thêm 10 bằng bao nhiêu?", a:"70 – vì 30 ÷ 1/2 = 30 × 2 = 60, cộng 10 = 70", hint:"Chia cho 1/2 khác chia cho 2 nhé!" },
+  { id:14, cat:"Đố mẹo", emoji:"👨‍👩‍👧‍👦", q:"Bố mẹ có 6 con trai, mỗi con trai có 1 em gái. Gia đình có bao nhiêu người?", a:"9 người: bố + mẹ + 6 con trai + 1 cô em gái (chung)", hint:"Em gái của tất cả anh trai, nghĩa là chỉ có 1 em gái thôi!" },
+  { id:15, cat:"Đố mẹo", emoji:"📅", q:"Ba ngày liên tiếp không có tên thứ Hai đến Chủ Nhật là gì?", a:"Hôm qua – Hôm nay – Ngày mai", hint:"Không cần tên ngày trong tuần mới gọi là ngày!" },
+  { id:16, cat:"Đố mẹo", emoji:"🌑", q:"Cái gì đen khi mua, đỏ khi dùng, xám khi vứt đi?", a:"Than củi", hint:"Dùng để đốt lửa, nướng thịt..." },
+  { id:17, cat:"Đố mẹo", emoji:"📏", q:"Tháng nào có 28 ngày?", a:"Tất cả các tháng đều có ít nhất 28 ngày!", hint:"Đừng chỉ nghĩ đến tháng 2!" },
+  { id:18, cat:"Đố mẹo", emoji:"🏠", q:"Tòa nhà lớn nhất thế giới là gì?", a:"Thư viện – vì có nhiều tầng (trang) nhất!", hint:"Chơi chữ với từ 'tầng'..." },
+  { id:19, cat:"Đố mẹo", emoji:"🐄", q:"Mồm bò mà không phải mồm bò là con gì?", a:"Con bê (bê = con bò con, mồm bê = mồm bê, không phải bò trưởng thành)", hint:"Con của bò gọi là gì?" },
+  { id:20, cat:"Đố mẹo", emoji:"🦟", q:"Vừa bằng hạt đỗ, ăn giỗ cả làng là con gì?", a:"Con ruồi – mâm cơm nào cũng có nó", hint:"Côn trùng bay vo ve..." },
+
+  // 🧩 HACK NÃO
+  { id:21, cat:"Hack não", emoji:"🐘", q:"Cái gì có kích thước bằng con voi nhưng không nặng gram nào?", a:"Bóng của con voi", hint:"Nhìn xuống đất khi mặt trời chiếu..." },
+  { id:22, cat:"Hack não", emoji:"🐱", q:"Con mèo có gì mà không con vật nào khác có?", a:"Tiếng kêu 'meo' và đẻ ra mèo con", hint:"Đặc trưng chỉ mèo mới có!" },
+  { id:23, cat:"Hack não", emoji:"🐈", q:"Con mèo nào cực kỳ sợ chuột?", a:"Mèo... Ông Thọ (nhãn hiệu sữa)", hint:"Nhìn vào lon sữa đặc phổ biến!" },
+  { id:24, cat:"Hack não", emoji:"🖼️", q:"Tranh Mona Lisa – người đẹp này không có gì?", a:"Lông mày", hint:"Nhìn kỹ khuôn mặt trong tranh!" },
+  { id:25, cat:"Hack não", emoji:"🌙", q:"Cái gì luôn đi đến mà không bao giờ đến nơi?", a:"Ngày mai", hint:"Ngày mai mãi mãi là ngày mai..." },
+  { id:26, cat:"Hack não", emoji:"⏰", q:"Cái gì có mặt nhưng không nhìn thấy, có tai nhưng không nghe?", a:"Bức tường (mặt tường, tai cột)", hint:"Trong nhà bạn đầy những thứ này!" },
+  { id:27, cat:"Hack não", emoji:"🔤", q:"Từ nào trong tiếng Việt có chín mẫu tự 'h'?", a:"Chính (c-h-í-n-h) – 2 chữ h, còn câu hỏi chơi chữ: 'chín' = 9", hint:"Đếm chữ h trong từ 'chính'!" },
+  { id:28, cat:"Hack não", emoji:"➗", q:"Chứng minh: Ba + n = Bốn với mọi n?", a:"Ba + n = Bố + n (chỉ thêm chữ n vào cuối)", hint:"Đây là chơi chữ, không phải toán học!" },
+  { id:29, cat:"Hack não", emoji:"🌅", q:"Con gì đầu hướng đông, quay trái 2 vòng, quay ngược lại, quay phải. Đuôi chỉ hướng nào?", a:"Chỉ xuống đất – vì đuôi lúc nào cũng chỉ xuống!", hint:"Đuôi không liên quan đến hướng quay!" },
+  { id:30, cat:"Hack não", emoji:"🐄", q:"Trên đồng có 6 con bò, đếm đi đếm lại chỉ có 12 cái chân?", a:"Bình thường thôi – 6 con × 4 chân = 24? Ủa, câu này thực ra 12 chân = 3 con bò cụt!", hint:"6 con bò bình thường = 24 chân... 12 chân là mấy con?" },
+  { id:31, cat:"Hack não", emoji:"🔢", q:"Tôi là số, thêm tôi với tôi được 10. Tôi là số nào?", a:"Số 5", hint:"5 + 5 = 10!" },
+  { id:32, cat:"Hack não", emoji:"👁️", q:"Tại sao bắn súng người ta nhắm một mắt?", a:"Vì chưa ai thấy ai nhắm hai mắt bắn súng cả!", hint:"Câu trả lời đơn giản hơn bạn nghĩ..." },
+  { id:33, cat:"Hack não", emoji:"🌧️", q:"Bạn làm việc gì đầu tiên mỗi buổi sáng?", a:"Mở mắt", hint:"Trước khi đánh răng, trước khi tắm..." },
+  { id:34, cat:"Hack não", emoji:"💊", q:"Ăn cái gì mà càng ăn càng ốm?", a:"Ăn kiêng", hint:"Người giảm cân hay làm việc này!" },
+  { id:35, cat:"Hack não", emoji:"🐟", q:"Con cua đỏ 15dm/phút đua với con cua xanh 10dm/phút. Con nào về đích trước?", a:"Con cua xanh – vì con đỏ đã bị luộc chín rồi!", hint:"Cua đỏ thì đang ở đâu?" },
+  { id:36, cat:"Hack não", emoji:"♟️", q:"Tại sao 30 đàn ông và 2 đàn bà đánh nhau tán loạn?", a:"Đang chơi cờ vua!", hint:"Trò chơi gì có quân và tướng?" },
+  { id:37, cat:"Hack não", emoji:"🦷", q:"Cái gì đánh bố, đánh mẹ, đánh anh, đánh chị, đánh em?", a:"Bàn chải đánh răng", hint:"Đánh răng mỗi ngày!" },
+  { id:38, cat:"Hack não", emoji:"🔤", q:"Cái gì Adam có 2 mà Eva chỉ có 1?", a:"Chữ 'a' – Adam có 2 chữ a, Eva có 1 chữ a", hint:"Đếm chữ cái trong tên!" },
+  { id:39, cat:"Hack não", emoji:"🎪", q:"Môn thể thao nào càng thắng càng thua?", a:"Môn kéo co... hoặc đua xe đạp (càng thắng = càng đạp = càng mỏi)", hint:"Nghĩ về các môn phải cố gắng liên tục!" },
+  { id:40, cat:"Hack não", emoji:"⚡", q:"Loại nước giải khát nào chứa sắt (Fe) và canxi (Ca)?", a:"Cà phê: Ca = canxi, Fe = sắt, Cà phê!", hint:"Đọc tên nước uống bằng ký hiệu hóa học!" },
+
+  // 🌿 DÂN GIAN
+  { id:41, cat:"Dân gian", emoji:"🌸", q:"Chân đỏ mình đen, đầu đội hoa sen, lên chầu Thượng đế. Là gì?", a:"Cây nén (hương) đang cháy", hint:"Thứ dùng để thờ cúng..." },
+  { id:42, cat:"Dân gian", emoji:"🌙", q:"Khi xanh thì chẳng thấy, khi chín thì vàng, khi già thì đen. Là gì?", a:"Trái chuối", hint:"Loại quả quen thuộc mỗi ngày!" },
+  { id:43, cat:"Dân gian", emoji:"☁️", q:"Khi xanh, khi trắng, khi hồng, chẳng thả dưới nước cũng bồng bềnh trôi. Là gì?", a:"Đám mây", hint:"Nhìn lên bầu trời!" },
+  { id:44, cat:"Dân gian", emoji:"🌧️", q:"Cái gì lỏng quanh đây, nắng lên thành cánh bay, lạnh thì trở lại xuống chơi? Là gì?", a:"Nước (nước bay hơi, đóng băng, mưa xuống)", hint:"Chu trình nước trong tự nhiên!" },
+  { id:45, cat:"Dân gian", emoji:"🔥", q:"Ngọn gì khi nhỏ khi to, khi hiền khi ác, thuận thì bạn, nhỡ tay thì rừng tan?", a:"Ngọn lửa", hint:"Vừa sưởi ấm vừa nguy hiểm!" },
+  { id:46, cat:"Dân gian", emoji:"📖", q:"Đêm đến làm bạn cùng đèn, giúp chàng quân tử đỗ đạt trạng nguyên. Là gì?", a:"Quyển sách", hint:"Đọc dưới ánh đèn để học..." },
+  { id:47, cat:"Dân gian", emoji:"🌾", q:"Hạt nào để sống một tên, khi nấu lên lại có tên khác?", a:"Hạt gạo – nấu lên thành cơm", hint:"Bữa cơm hàng ngày!" },
+  { id:48, cat:"Dân gian", emoji:"🐛", q:"Con gì đi không mỏi, đứng không mỏi, khi nằm là mỏi?", a:"Chiếc đinh (đóng vào tường)", hint:"Không phải con vật thật!" },
+  { id:49, cat:"Dân gian", emoji:"🐟", q:"Con gì không ăn không uống nhưng vẫn sống?", a:"Con cá trong tranh / con cờ cá", hint:"Hỏi về 'con' không phải sinh vật thật!" },
+  { id:50, cat:"Dân gian", emoji:"🌊", q:"Nắng lửa mưa dầu tôi đâu bỏ bạn. Tôi là gì?", a:"Cái bóng", hint:"Theo sát bạn mọi lúc mọi nơi!" },
+  { id:51, cat:"Dân gian", emoji:"🏔️", q:"Rồng bay ở đâu và đáp ở đâu tại Việt Nam?", a:"Bay từ Thăng Long, đáp tại Hạ Long", hint:"Hai địa danh nổi tiếng của Hà Nội và Quảng Ninh!" },
+  { id:52, cat:"Dân gian", emoji:"💧", q:"Bánh gì ngoài xanh trong trắng, cho đậu cho hành rồi thả thêm heo?", a:"Bánh chưng", hint:"Món ăn ngày Tết truyền thống!" },
+  { id:53, cat:"Dân gian", emoji:"🌺", q:"Bánh nào đi đứng luôn mệt mỏi?", a:"Bánh bò", hint:"Bò = đi bằng chân!" },
+  { id:54, cat:"Dân gian", emoji:"🏡", q:"Nhà ba căn hai chái, thò đầu thò đuôi. Là gì?", a:"Con lợn trong chuồng", hint:"Vật nuôi quen thuộc ở nông thôn!" },
+  { id:55, cat:"Dân gian", emoji:"🪡", q:"Sang hèn chưa chê bao giờ, giúp người chẳng kể công. Là gì?", a:"Cái kim", hint:"Dùng để may vá quần áo!" },
+  { id:56, cat:"Dân gian", emoji:"🌙", q:"Thân hình sư tử, đầu rồng, múa trên nhịp trống tưng bừng. Là gì?", a:"Con lân (múa lân)", hint:"Biểu diễn trong lễ hội Trung Thu!" },
+  { id:57, cat:"Dân gian", emoji:"✂️", q:"Hai lưng song sóng, hai họng ấp nhau, dí một cái. Là gì?", a:"Cái kéo", hint:"Dùng để cắt vải, giấy..." },
+  { id:58, cat:"Dân gian", emoji:"🌊", q:"Đôi ta vui thú cuộc chơi, những nước là nước cứ tòi mãi ra. Là gì?", a:"Chơi cờ (nước cờ)", hint:"Môn giải trí trí tuệ!" },
+  { id:59, cat:"Dân gian", emoji:"🔑", q:"Trèo lên anh nhún em kêu, nhún no nhún chán anh khều nó ra. Là gì?", a:"Mở khóa cửa", hint:"Hành động mở cửa nhà!" },
+  { id:60, cat:"Dân gian", emoji:"🌾", q:"Mới dùng thì nắc xom xom, đến khi dùng chán om xòm mình em. Là gì?", a:"Cái nơm úp cá", hint:"Dụng cụ bắt cá của người Việt xưa!" },
+
+  // 🔬 KHOA HỌC & TOÁN
+  { id:61, cat:"Toán & KH", emoji:"🔢", q:"Có 5 quả táo trong giỏ, bạn lấy 3 quả. Bạn còn lại bao nhiêu trong tay?", a:"3 quả – vì bạn lấy 3 quả vào tay rồi!", hint:"Câu hỏi hỏi bạn có, không phải trong giỏ!" },
+  { id:62, cat:"Toán & KH", emoji:"🚗", q:"Cuộc đua 8 xe, 1 xe tông vào 1 xe khác và bị hư. Còn mấy xe đua?", a:"6 xe – cả xe bị tông cũng ra khỏi đường đua", hint:"Hai xe đụng nhau, cả hai đều hỏng!" },
+  { id:63, cat:"Toán & KH", emoji:"🧮", q:"Con số lớn nhất có duy nhất 2 chữ số?", a:"9⁹ = 387.420.489", hint:"Không phải 99 đâu nhé!" },
+  { id:64, cat:"Toán & KH", emoji:"🌡️", q:"4 ÷ 3 = ? (tính theo cách chơi chữ tiếng Việt)", a:"Tứ chia tam = tám chia tư = 8 ÷ 4 = 2", hint:"Đọc số La Mã bằng tiếng Việt!" },
+  { id:65, cat:"Toán & KH", emoji:"💧", q:"Một ly thủy tinh đựng đầy nước, lấy nước đáy ly mà không đổ ra ngoài bằng cách nào?", a:"Lật úp ly xuống – nước đáy ly trở thành nước ở... miệng ly rồi chảy ra!", hint:"Hoặc đợi nước bay hơi hết!" },
+  { id:66, cat:"Toán & KH", emoji:"🌍", q:"Trái Đất quay 1 vòng mất bao lâu?", a:"24 giờ (1 ngày) để quay quanh trục, 365 ngày để quay quanh Mặt Trời", hint:"Hai loại chuyển động khác nhau!" },
+  { id:67, cat:"Toán & KH", emoji:"🐟", q:"Cá có thể sống trong nước cất (nước tinh khiết 100%) không?", a:"Không – cá cần khoáng chất và muối hòa tan trong nước", hint:"Nước cất khác với nước tự nhiên!" },
+  { id:68, cat:"Toán & KH", emoji:"🦋", q:"Bướm và sâu bướm – con nào có nhiều chân hơn?", a:"Sâu bướm – có thể có tới 16 chân, bướm chỉ có 6 chân", hint:"Côn trùng trưởng thành có đúng 6 chân!" },
+  { id:69, cat:"Toán & KH", emoji:"🌑", q:"Tại sao ta không thấy mặt sau của Mặt Trăng từ Trái Đất?", a:"Vì Mặt Trăng quay quanh Trái Đất đúng bằng thời gian tự quay của nó", hint:"Hai chu kỳ bằng nhau!" },
+  { id:70, cat:"Toán & KH", emoji:"❄️", q:"Cái gì làm cho nước đóng băng thành đá?", a:"Nhiệt độ xuống dưới 0°C", hint:"Vật lý cơ bản!" },
+
+  // 😂 VUI & HÀI
+  { id:71, cat:"Vui & Hài", emoji:"😂", q:"Con gì ăn bằng đuôi?", a:"Con gì cũng ăn bằng đuôi – vì không con nào ăn bằng đuôi cả!", hint:"Câu hỏi có bẫy!" },
+  { id:72, cat:"Vui & Hài", emoji:"🦆", q:"Vịt nào đi bằng 2 chân?", a:"Vịt không bị què đi bằng 2 chân!", hint:"Vịt bình thường đi bằng mấy chân?" },
+  { id:73, cat:"Vui & Hài", emoji:"😴", q:"Đang yêu mà người yêu chết gọi là tình gì?", a:"Tình... trang (tình trạng)", hint:"Chơi chữ tiếng Việt!" },
+  { id:74, cat:"Vui & Hài", emoji:"🌞", q:"Nhà 1 tầng, tất cả mọi thứ màu vàng. Cầu thang màu gì?", a:"Nhà 1 tầng không có cầu thang!", hint:"Đọc lại đề bài thật kỹ!" },
+  { id:75, cat:"Vui & Hài", emoji:"🧑‍🍳", q:"Bỏ ngoài nướng trong, ăn ngoài bỏ trong là gì?", a:"Bắp ngô nướng – bỏ lá, nướng lõi, ăn hạt, bỏ lõi", hint:"Món ăn đường phố Việt Nam!" },
+  { id:76, cat:"Vui & Hài", emoji:"🐕", q:"Con chó chạy vào rừng được bao xa thì quay đầu ra?", a:"Nửa đường – vì sau đó nó chạy ra!", hint:"Vào bao xa thì bắt đầu chạy ra?" },
+  { id:77, cat:"Vui & Hài", emoji:"💇", q:"Ở thị trấn chỉ có 1 thợ cắt tóc, cắt tóc cho tất cả người không tự cắt. Ai cắt tóc cho thợ?", a:"Không ai – hoặc thợ tự cắt (nghịch lý Russell!)", hint:"Đây là nghịch lý nổi tiếng trong logic học!" },
+  { id:78, cat:"Vui & Hài", emoji:"🐓", q:"Gà mái đẻ 1 ngày 1 trứng. 1 ngày rưỡi đẻ bao nhiêu trứng?", a:"1 trứng – vì mỗi ngày chỉ đẻ 1 trứng!", hint:"Nửa ngày không có nghĩa là nửa trứng!" },
+  { id:79, cat:"Vui & Hài", emoji:"🎣", q:"Tại sao cá sống dưới nước không bao giờ bị ướt?", a:"Cá đã ướt rồi – từ khi sinh ra!", hint:"Cá có cảm giác bị ướt không?" },
+  { id:80, cat:"Vui & Hài", emoji:"⏱️", q:"5 cái máy mất 5 phút làm 5 sản phẩm. 100 cái máy mất bao lâu làm 100 sản phẩm?", a:"5 phút – mỗi máy vẫn mất 5 phút làm 1 sản phẩm!", hint:"Thời gian không nhân lên theo số máy!" },
+
+  // 🇻🇳 VIỆT NAM
+  { id:81, cat:"Việt Nam", emoji:"🌺", q:"Hoa quốc hoa của Việt Nam là gì?", a:"Hoa sen", hint:"Mọc dưới bùn nhưng không hôi tanh mùi bùn!" },
+  { id:82, cat:"Việt Nam", emoji:"🏙️", q:"Thành phố nào ở Việt Nam từng có tên là Sài Gòn?", a:"Thành phố Hồ Chí Minh", hint:"Thành phố lớn nhất miền Nam!" },
+  { id:83, cat:"Việt Nam", emoji:"🏔️", q:"Đỉnh núi cao nhất Việt Nam là gì?", a:"Fansipan (3.143m) – ở Lào Cai", hint:"Nóc nhà Đông Dương!" },
+  { id:84, cat:"Việt Nam", emoji:"🌊", q:"Vịnh biển nào của Việt Nam là Di sản Thiên nhiên Thế giới?", a:"Vịnh Hạ Long", hint:"Nổi tiếng với hàng nghìn đảo đá!" },
+  { id:85, cat:"Việt Nam", emoji:"📜", q:"Ai viết Truyện Kiều?", a:"Đại thi hào Nguyễn Du", hint:"Nhà thơ vĩ đại thời Nguyễn!" },
+  { id:86, cat:"Việt Nam", emoji:"🎵", q:"Nhạc cụ dân tộc nào có hình dạng như chiếc thuyền?", a:"Đàn bầu (độc huyền cầm)", hint:"Nhạc cụ chỉ có 1 dây!" },
+  { id:87, cat:"Việt Nam", emoji:"🐉", q:"Vua nào chăn trâu từ thuở bé, cầm cờ lau tập trận?", a:"Đinh Tiên Hoàng (Đinh Bộ Lĩnh)", hint:"Người thống nhất đất nước sau loạn 12 sứ quân!" },
+  { id:88, cat:"Việt Nam", emoji:"⚔️", q:"Ai phá quân Nam Hán trên sông Bạch Đằng năm 938?", a:"Ngô Quyền", hint:"Trận chiến cọc nhọn trên sông!" },
+  { id:89, cat:"Việt Nam", emoji:"🌿", q:"Cây tre tượng trưng cho điều gì trong văn hóa Việt?", a:"Sức sống bền bỉ, tinh thần bất khuất, tình đoàn kết", hint:"Loài cây gắn liền với làng quê Việt Nam!" },
+  { id:90, cat:"Việt Nam", emoji:"🎑", q:"Tết Trung Thu còn gọi là tết gì?", a:"Tết thiếu nhi / Tết trăng rằm", hint:"Trẻ em rước đèn vào ngày rằm tháng 8 âm lịch!" },
+
+  // 🌍 THẾ GIỚI
+  { id:91, cat:"Thế giới", emoji:"🗼", q:"Tháp Eiffel ở thành phố nào?", a:"Paris, Pháp", hint:"Thủ đô lãng mạn của châu Âu!" },
+  { id:92, cat:"Thế giới", emoji:"🌊", q:"Đại dương nào lớn nhất thế giới?", a:"Thái Bình Dương (Pacific Ocean)", hint:"Chiếm hơn 1/3 diện tích bề mặt Trái Đất!" },
+  { id:93, cat:"Thế giới", emoji:"🐼", q:"Con gấu trúc là biểu tượng của quốc gia nào?", a:"Trung Quốc", hint:"Quốc gia đông dân nhất châu Á!" },
+  { id:94, cat:"Thế giới", emoji:"⚽", q:"FIFA World Cup diễn ra bao nhiêu năm một lần?", a:"4 năm một lần", hint:"Sự kiện thể thao lớn nhất hành tinh!" },
+  { id:95, cat:"Thế giới", emoji:"🌋", q:"Núi lửa nào phun trào chôn vùi thành phố Pompeii?", a:"Núi Vesuvius (năm 79 SCN)", hint:"Thành phố La Mã bị phong ấn trong dung nham!" },
+  { id:96, cat:"Thế giới", emoji:"🎭", q:"Nhà soạn kịch nổi tiếng nhất mọi thời đại – tác giả Romeo & Juliet?", a:"William Shakespeare", hint:"Nhà văn người Anh thời Phục Hưng!" },
+  { id:97, cat:"Thế giới", emoji:"🍎", q:"Quả táo rơi trúng đầu ai gợi cảm hứng khám phá ra lực hấp dẫn?", a:"Isaac Newton", hint:"Nhà khoa học người Anh vĩ đại!" },
+  { id:98, cat:"Thế giới", emoji:"🌍", q:"Lục địa nào lạnh nhất Trái Đất?", a:"Nam Cực (Antarctica)", hint:"Không có dân cư bản địa sinh sống!" },
+  { id:99, cat:"Thế giới", emoji:"🔭", q:"Hành tinh nào được gọi là 'Hành tinh Đỏ'?", a:"Sao Hỏa (Mars)", hint:"NASA đang nghiên cứu đưa người đến đây!" },
+  { id:100, cat:"Thế giới", emoji:"🦁", q:"Quốc gia nào có biểu tượng là con sư tử và tên có nghĩa là 'Thành phố sư tử'?", a:"Singapore (tiếng Malay: Singa = sư tử, Pura = thành phố)", hint:"Đảo quốc nhỏ bé nhưng giàu mạnh ở Đông Nam Á!" },
+];
+
+// ── STATE ──
+let revealed = new Set(JSON.parse(localStorage.getItem('rev') || '[]'));
+let correct = new Set(JSON.parse(localStorage.getItem('cor') || '[]'));
+let wrong = new Set(JSON.parse(localStorage.getItem('wrg') || '[]'));
+let streak = parseInt(localStorage.getItem('streak') || '0');
+let bestStreak = parseInt(localStorage.getItem('bestStreak') || '0');
+let activeCategory = 'Tất cả';
+let searchQ = '';
+
+function save() {
+  localStorage.setItem('rev', JSON.stringify([...revealed]));
+  localStorage.setItem('cor', JSON.stringify([...correct]));
+  localStorage.setItem('wrg', JSON.stringify([...wrong]));
+  localStorage.setItem('streak', streak);
+  localStorage.setItem('bestStreak', bestStreak);
+}
+
+// ── CATEGORIES ──
+const cats = ['Tất cả', ...new Set(RIDDLES.map(r => r.cat))];
+
+function buildCatFilter() {
+  const wrap = document.getElementById('catFilter');
+  wrap.innerHTML = '';
+  cats.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (c === activeCategory ? ' active' : '');
+    const count = c === 'Tất cả' ? RIDDLES.length : RIDDLES.filter(r => r.cat === c).length;
+    btn.textContent = `${c} (${count})`;
+    btn.onclick = () => { activeCategory = c; buildCatFilter(); renderCards(); };
+    wrap.appendChild(btn);
+  });
+}
+
+// ── RENDER ──
+function getFiltered() {
+  return RIDDLES.filter(r => {
+    const matchCat = activeCategory === 'Tất cả' || r.cat === activeCategory;
+    const q = searchQ.toLowerCase();
+    const matchSearch = !q || r.q.toLowerCase().includes(q) || r.a.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+}
+
+function renderCards() {
+  const list = document.getElementById('cardList');
+  const filtered = getFiltered();
+
+  document.getElementById('sectionLabel').textContent =
+    activeCategory === 'Tất cả' ? 'Tất cả câu đố' : activeCategory;
+  document.getElementById('sectionCount').textContent = `${filtered.length} câu`;
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty"><div class="emoji">🔍</div><p>Không tìm thấy câu đố nào phù hợp!</p></div>`;
+    return;
+  }
+
+  list.innerHTML = '';
+  filtered.forEach((r, idx) => {
+    const isRevealed = revealed.has(r.id);
+    const isCorrect = correct.has(r.id);
+    const isWrong = wrong.has(r.id);
+
+    const card = document.createElement('div');
+    card.className = 'card' + (isCorrect ? ' revealed' : isWrong ? ' skipped' : '');
+    card.id = `card-${r.id}`;
+    card.style.animationDelay = `${Math.min(idx * 0.03, 0.5)}s`;
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="card-num">#${r.id}</div>
+        <div class="card-body">
+          <div class="card-category">${r.cat}</div>
+          <div class="card-question">${r.q}</div>
+        </div>
+        <div class="card-emoji">${r.emoji}</div>
+      </div>
+      <div class="answer-wrap ${isRevealed ? 'open' : ''}" id="ans-${r.id}">
+        <div class="answer-divider"></div>
+        <div class="answer-label">Đáp án</div>
+        <div class="answer-text">${r.a}</div>
+        ${r.hint ? `<div class="card-hint">💡 ${r.hint}</div>` : ''}
+      </div>
+      <div class="card-actions ${isRevealed && !isCorrect && !isWrong ? 'open' : ''}" id="acts-${r.id}">
+        <button class="act-btn got-it" onclick="markCorrect(${r.id}, event)">✅ Tôi đã biết!</button>
+        <button class="act-btn skip" onclick="markWrong(${r.id}, event)">😅 Chưa biết</button>
+      </div>
+      ${!isRevealed ? `<div class="reveal-hint" style="margin-top:14px;font-size:0.74rem;color:var(--muted)">👆 Nhấn để xem đáp án</div>` : ''}
+    `;
+
+    card.addEventListener('click', (e) => {
+      if (e.target.classList.contains('act-btn')) return;
+      toggleReveal(r.id);
+    });
+
+    list.appendChild(card);
+  });
+
+  updateStats();
+  checkComplete();
+}
+
+function toggleReveal(id) {
+  const ansWrap = document.getElementById(`ans-${id}`);
+  const actsWrap = document.getElementById(`acts-${id}`);
+  const card = document.getElementById(`card-${id}`);
+
+  if (!revealed.has(id)) {
+    revealed.add(id);
+    ansWrap.classList.add('open');
+    // Show actions if not already rated
+    if (!correct.has(id) && !wrong.has(id)) {
+      actsWrap.classList.add('open');
+    }
+    // Remove hint
+    const hint = card.querySelector('.reveal-hint');
+    if (hint) hint.remove();
+    save();
+  } else {
+    revealed.delete(id);
+    ansWrap.classList.remove('open');
+    actsWrap.classList.remove('open');
+    // Re-add hint
+    if (!card.querySelector('.reveal-hint')) {
+      const h = document.createElement('div');
+      h.className = 'reveal-hint';
+      h.style.cssText = 'margin-top:14px;font-size:0.74rem;color:var(--muted)';
+      h.textContent = '👆 Nhấn để xem đáp án';
+      card.appendChild(h);
+    }
+    save();
+  }
+  updateStats();
+}
+
+function markCorrect(id, e) {
+  e.stopPropagation();
+  correct.add(id);
+  wrong.delete(id);
+  streak++;
+  if (streak > bestStreak) bestStreak = streak;
+  document.getElementById(`card-${id}`).classList.add('revealed');
+  document.getElementById(`card-${id}`).classList.remove('skipped');
+  document.getElementById(`acts-${id}`).classList.remove('open');
+  save();
+  updateStats();
+  spawnConfetti();
+  showToast(streak >= 5 ? `🔥 Chuỗi ${streak}! Tuyệt vời!` : '✅ Đúng rồi!');
+  checkComplete();
+}
+
+function markWrong(id, e) {
+  e.stopPropagation();
+  wrong.add(id);
+  correct.delete(id);
+  streak = 0;
+  document.getElementById(`card-${id}`).classList.add('skipped');
+  document.getElementById(`card-${id}`).classList.remove('revealed');
+  document.getElementById(`acts-${id}`).classList.remove('open');
+  save();
+  updateStats();
+  showToast('😅 Không sao, xem lại nhé!');
+}
+
+function updateStats() {
+  const total = RIDDLES.length;
+  const c = correct.size;
+  const w = wrong.size;
+  const left = total - c - w;
+  const pct = ((c + w) / total) * 100;
+
+  document.getElementById('statCorrect').textContent = c;
+  document.getElementById('statWrong').textContent = w;
+  document.getElementById('statLeft').textContent = left;
+  document.getElementById('statStreak').textContent = streak;
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('hScore').textContent = `✅ ${c}`;
+  document.getElementById('hStreak').textContent = `🔥 ${streak}`;
+  document.getElementById('headerProg').textContent = `${c + w}/${total} đã xem`;
+}
+
+function checkComplete() {
+  const done = correct.size + wrong.size;
+  const banner = document.getElementById('completeBanner');
+  if (done >= RIDDLES.length) {
+    banner.classList.add('show');
+    document.getElementById('completeText').textContent =
+      `🎉 Bạn đúng ${correct.size}/100 câu! Chuỗi dài nhất: ${bestStreak} 🔥`;
+    spawnConfetti(60);
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+function resetAll() {
+  revealed.clear(); correct.clear(); wrong.clear();
+  streak = 0; bestStreak = 0;
+  localStorage.clear();
+  save();
+  renderCards();
+  document.getElementById('completeBanner').classList.remove('show');
+  showToast('🔄 Đã đặt lại tất cả!');
+}
+
+function filterCards() {
+  searchQ = document.getElementById('searchInput').value;
+  renderCards();
+}
+
+// ── TOAST ──
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ── CONFETTI ──
+function spawnConfetti(count = 18) {
+  const colors = ['#e8622a','#2a7de8','#27a06e','#e8b62a','#e82a7d','#7d2ae8'];
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'confetti-p';
+      const size = Math.random() * 9 + 5;
+      p.style.cssText = `
+        left:${Math.random()*100}vw;top:-10px;
+        width:${size}px;height:${size}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius:${Math.random()>.5?'50%':'2px'};
+        --dx:${(Math.random()-.5)*150}px;
+        animation-duration:${Math.random()*1.5+1.2}s;
+        animation-delay:${Math.random()*0.4}s;
+      `;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 2500);
+    }, i * 40);
+  }
+}
+
+// ── INIT ──
+buildCatFilter();
+renderCards();
+</script>
+</body>
+</html>
